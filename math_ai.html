@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>增强符号回归系统 - 数学AI工具</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --gradient-start: #1a2980;
+            --gradient-end: #26d0ce;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(120deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            z-index: 1;
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            opacity: 0.9;
+        }
+        
+        .intro-box {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid var(--primary);
+        }
+        
+        .intro-box h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .card-body {
+            padding: 25px;
+        }
+        
+        .card-body ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .card-body li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .card-body li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-body li i {
+            color: var(--success);
+            margin-top: 4px;
+        }
+        
+        .tech-stack {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tech-stack h2 {
+            color: var(--secondary);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .tech-item {
+            background: #f8f9fa;
+            padding: 20px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .tech-item i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .workflow {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .workflow h2 {
+            color: var(--secondary);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        
+        .step {
+            width: 180px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step::after {
+            content: "→";
+            position: absolute;
+            right: -25px;
+            top: 30px;
+            font-size: 2rem;
+            color: var(--primary);
+            opacity: 0.6;
+        }
+        
+        .step:last-child::after {
+            display: none;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        
+        .step h3 {
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .contributions {
+            background: linear-gradient(120deg, var(--dark), #34495e);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .contributions h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .contribution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .contribution-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contribution-item i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: var(--secondary);
+            color: white;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step::after {
+                content: "↓";
+                right: 50%;
+                top: auto;
+                bottom: -25px;
+                transform: translateX(50%);
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>增强符号回归系统</h1>
+            <p>使用先进AI技术从数据中发现数学表达式</p>
+        </header>
+        
+        <div class="intro-box">
+            <h2><i class="fas fa-lightbulb"></i> 系统概述</h2>
+            <p>增强符号回归系统是一个创新的数学AI工具，能够从给定的数据点中自动发现潜在的数学表达式。该系统结合了多种先进技术，包括遗传规划、贝叶斯优化和神经网络搜索，能够处理复杂的数学关系并输出人类可读的数学公式。</p>
+            <p>与传统回归方法不同，符号回归不仅能拟合数据，还能揭示变量之间的数学关系，为科学研究、工程分析和数据建模提供了强大的工具。</p>
+        </div>
+        
+        <div class="feature-cards">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cogs"></i>
+                    <h3>核心功能</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>多步表达式解析：支持复杂的多步数学表达式</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>智能符号回归：使用遗传算法发现数学关系</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>进制转换工具：支持二进制、八进制、十进制和十六进制转换</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>物理约束应用：确保表达式符合物理规律</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>常数优化：自动优化表达式中的常数项</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle"></i>
+                            <span>可视化分析：图形化展示目标函数与预测结果</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-rocket"></i>
+                    <h3>技术优势</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span>多算法融合：结合遗传规划、贝叶斯优化和神经网络</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span>多进制支持：处理不同进制表示的数学常数</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span>复杂表达式处理：支持三角函数、指数、对数等复杂运算</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span>并行处理能力：加速大规模计算任务</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span>实时进度反馈：监控回归过程并可视化结果</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-star"></i>
+                            <span>误差分析：图形化展示预测误差分布</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>应用场景</h3>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>
+                            <i class="fas fa-flask"></i>
+                            <span>科学发现：从实验数据推导物理定律</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-cube"></i>
+                            <span>工程建模：建立系统行为的数学模型</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-dna"></i>
+                            <span>生物信息学：分析基因表达数据关系</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-coins"></i>
+                            <span>金融分析：发现市场变量间的数学关系</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-robot"></i>
+                            <span>AI研究：解释神经网络决策过程</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>教育工具：演示数学关系发现过程</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tech-stack">
+            <h2><i class="fas fa-layer-group"></i> 技术栈</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-python"></i>
+                    <h3>Python 3</h3>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-calculator"></i>
+                    <h3>NumPy</h3>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-infinity"></i>
+                    <h3>SymPy</h3>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-chart-area"></i>
+                    <h3>Matplotlib</h3>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-window-restore"></i>
+                    <h3>PyQt5</h3>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-brain"></i>
+                    <h3>SciPy</h3>
+                </div>
+            </div>
+        </div>
+        
+        <div class="workflow">
+            <h2><i class="fas fa-sitemap"></i> 符号回归流程</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>输入函数</h3>
+                    <p>选择或输入目标函数和参数范围</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>生成数据</h3>
+                    <p>在指定范围内生成样本数据点</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>初始化种群</h3>
+                    <p>创建随机数学表达式种群</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>进化迭代</h3>
+                    <p>选择、交叉、变异优化表达式</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3>结果输出</h3>
+                    <p>输出最优表达式并可视化</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contributions">
+            <h2><i class="fas fa-medal"></i> 系统创新点</h2>
+            <div class="contribution-grid">
+                <div class="contribution-item">
+                    <i class="fas fa-sitemap"></i>
+                    <h3>多步表达式处理</h3>
+                    <p>创新性地支持多步数学表达式的解析和优化，能够处理复杂的计算流程</p>
+                </div>
+                <div class="contribution-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>多进制支持</h3>
+                    <p>集成进制转换工具，支持二进制、八进制、十进制和十六进制数学表达</p>
+                </div>
+                <div class="contribution-item">
+                    <i class="fas fa-cogs"></i>
+                    <h3>混合算法框架</h3>
+                    <p>融合遗传规划、贝叶斯优化和神经网络搜索，提升符号回归效果</p>
+                </div>
+                <div class="contribution-item">
+                    <i class="fas fa-bolt"></i>
+                    <h3>物理约束应用</h3>
+                    <p>将物理规律作为约束条件，确保发现的表达式符合科学原理</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>增强符号回归系统 - 数学与人工智能的完美结合</p>
+            <p>© 2023 数学AI研究团队 | 开源项目</p>
+        </footer>
+    </div>
+</body>
+</html>
