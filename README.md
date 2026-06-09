@@ -209,10 +209,12 @@ python_demo/
 
 ## 📊 Statistics
 
-- **Total Scripts**: 40+
-- **Categories**: 9
-- **Lines of Code**: ~30,000+
-- **Last Updated**: Active
+- **Total Scripts**: 366+ 
+- **Categories**: 9+ domains
+- **Lines of Code**: ~250,000+ (pure Python code, excluding comments and blank lines)
+- **Last Updated**: Active (Jun 2026)
+
+*Note: The codebase continues to grow with each commit, covering everything from fundamental algorithms to advanced AI systems.*
 
 ## 📄 License
 
