@@ -223,7 +223,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 如有问题或建议，请通过以下方式联系：
 
 - **GitHub Issues**: [Create an issue](https://github.com/jiarobot/python_demo/issues)
-- **Email**: jiarobot@example.com
+- **Email**: 1016648552@qq.com
 - **GitHub**: [@jiarobot](https://github.com/jiarobot)
 
 ## ⭐ Show Your Support
